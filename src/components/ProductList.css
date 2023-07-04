@@ -1,0 +1,58 @@
+/* CSS dosyasında yer alan classlar */
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.selected-product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.selected-product img {
+  width: 59px;
+  height: 59px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.selected-product h3 {
+  margin-bottom: 5px;
+}
+
+.selected-product p {
+  margin: 0;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+.product-list li {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.product-list li img {
+  width: 59px;
+  height: 59px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.product-list li h4 {
+  margin-bottom: 5px;
+}
+
+/* Ekstra: Ürünlerin yan yana gitmesi için 2'li gruplar halinde düzenleme */
+.product-list li:nth-child(even) {
+  clear: both;
+}
