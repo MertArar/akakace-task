@@ -36,9 +36,9 @@ const ProductList = () => {
     fetchData();
   }, []);
 
-  const handleSelectedProductClick = () => {
-    if (selectedProduct) {
-      navigate(`/product/${selectedProduct.code}`);
+  const handleSelectedProductClick = (productCode) => {
+    if (productCode === products[0]?.code) {
+      navigate(`/product/${productCode}`);
     }
   };
 
@@ -83,7 +83,11 @@ const ProductList = () => {
                   src={horizontalProducts[carouselIndex]?.imageUrl}
                   alt={horizontalProducts[carouselIndex]?.name}
                   className="carousel-image"
-                  onClick={handleSelectedProductClick}
+                  onClick={() =>
+                    handleSelectedProductClick(
+                      horizontalProducts[carouselIndex]?.code
+                    )
+                  }
                 />
               )}
             </div>
@@ -113,10 +117,13 @@ const ProductList = () => {
       >
         {products.map((product) => (
           <li key={product.code}>
-            <Link to={`/product/${product.code}`}>
+            <div
+              className="product-item"
+              onClick={() => handleSelectedProductClick(product.code)}
+            >
               <img src={product.imageUrl} alt={product.name} />
-              {product.name}
-            </Link>
+              <span>{product.name}</span>
+            </div>
           </li>
         ))}
       </ul>
