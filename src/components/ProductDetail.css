@@ -70,7 +70,7 @@ button {
   cursor: pointer;
 }
 
-button:active {
+button:focus {
   border: 1px solid #000;
   border-radius: 7px;
 }
