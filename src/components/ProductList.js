@@ -64,8 +64,57 @@ const ProductList = () => {
     <div className="container">
       {selectedProduct && (
         <div className="selected-product">
-          <h2>Selected Product</h2>
           <div className="carousel-container">
+            <div className="item">
+              <div className="carousel-slide">
+                {horizontalProducts.length > 0 && (
+                  <img
+                    src={horizontalProducts[carouselIndex]?.imageUrl}
+                    alt={horizontalProducts[carouselIndex]?.name}
+                    className="carousel-image"
+                    onClick={() =>
+                      handleSelectedProductClick(
+                        horizontalProducts[carouselIndex]?.code
+                      )
+                    }
+                  />
+                )}
+              </div>
+
+              <div className="product">
+                <h3 className="product-name">
+                  {horizontalProducts[carouselIndex]?.name}
+                </h3>
+                <p>{horizontalProducts[carouselIndex]?.badge}</p>
+                <p className="product-rating">
+                  Rating: {horizontalProducts[carouselIndex]?.rating}
+                </p>
+                <p className="product-price">
+                  {horizontalProducts[carouselIndex]?.price}.00 {""}
+                  <span>TL</span>
+                </p>
+                <p className="storage">
+                  Storage Options:{" "}
+                  {horizontalProducts[carouselIndex]?.storageOptions?.join(
+                    ", "
+                  )}
+                </p>
+                <p className="seller-number">
+                  {horizontalProducts[carouselIndex]?.countOfPrices} {""}{" "}
+                  <span>Satıcı </span>
+                </p>
+                <p className="shipping-status">
+                  Ücretsiz Kargo:{" "}
+                  {horizontalProducts[carouselIndex]?.freeShipping
+                    ? "Evet"
+                    : "Hayır"}
+                </p>
+                <p className="product-update">
+                  Son Güncelleme:{" "}
+                  {horizontalProducts[carouselIndex]?.lastUpdate}
+                </p>
+              </div>
+            </div>
             <div className="carousel-dots">
               {horizontalProducts.map((_, index) => (
                 <span
@@ -77,39 +126,7 @@ const ProductList = () => {
                 />
               ))}
             </div>
-            <div className="carousel-slide">
-              {horizontalProducts.length > 0 && (
-                <img
-                  src={horizontalProducts[carouselIndex]?.imageUrl}
-                  alt={horizontalProducts[carouselIndex]?.name}
-                  className="carousel-image"
-                  onClick={() =>
-                    handleSelectedProductClick(
-                      horizontalProducts[carouselIndex]?.code
-                    )
-                  }
-                />
-              )}
-            </div>
           </div>
-          <h3 className="product-name">
-            {horizontalProducts[carouselIndex]?.name}
-          </h3>
-          <p>{horizontalProducts[carouselIndex]?.badge}</p>
-          <p>Rating: {horizontalProducts[carouselIndex]?.rating}</p>
-          <p>Price: {horizontalProducts[carouselIndex]?.price}</p>
-          <p>
-            Storage Options:{" "}
-            {horizontalProducts[carouselIndex]?.storageOptions?.join(", ")}
-          </p>
-          <p>
-            Count of Prices: {horizontalProducts[carouselIndex]?.countOfPrices}
-          </p>
-          <p>
-            Free Shipping:{" "}
-            {horizontalProducts[carouselIndex]?.freeShipping ? "Yes" : "No"}
-          </p>
-          <p>Last Update: {horizontalProducts[carouselIndex]?.lastUpdate}</p>
         </div>
       )}
 
@@ -127,7 +144,7 @@ const ProductList = () => {
               <div className="product-detail">
                 <span className="product-detail-name">{product.name}</span>
                 <span className="product-detail-price">
-                  {product.price} <span>TL</span>
+                  {product.price}.00 <span>TL</span>
                 </span>
               </div>
             </div>

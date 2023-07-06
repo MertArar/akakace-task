@@ -51,7 +51,7 @@ function ProductDetail() {
             132 satıcı içinde kargo dahil en ucuz fiyat seçeneği
           </p>
           <p className="product-price">
-            {product.price} <span>TL</span>
+            {product.price}.00 <span>TL</span>
           </p>
           <p className="shipping">
             Free Shipping: {product.freeShipping ? "Yes" : "No"}
