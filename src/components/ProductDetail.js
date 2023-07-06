@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "./ProductDetail.css";
 
 function ProductDetail() {
   const { code } = useParams();
@@ -23,14 +24,41 @@ function ProductDetail() {
   }
 
   return (
-    <div>
-      <h1>Product Detail</h1>
-      <img src={product.imageUrl} alt={product.productName} />
-      <h2>{product.productName}</h2>
-      <p>{product.badge}</p>
-      <p>Rating: {product.rating}</p>
-      <p>Price: {product.price}</p>
-      <p>Free Shipping: {product.freeShipping ? "Yes" : "No"}</p>
+    <div className="product-page">
+      <div className="left-side-items">
+        <h2 className="product-name">{product.productName}</h2>
+        <p className="product-badge">{product.badge}</p>
+        <p className="product-rating">
+          Rating: <span>{product.rating}</span>
+        </p>
+      </div>
+      <div className="product-detail">
+        <img
+          className="product-img"
+          src={product.imageUrl}
+          alt={product.productName}
+        />
+
+        <div className="capacity">
+          <p className="capacity-heading">Kapasite Seçenekleri: </p>
+          <div className="button">
+            <button>128 GB</button>
+            <button>256 GB</button>
+            <button>512 GB</button>
+          </div>
+
+          <p className="dummy-text">
+            132 satıcı içinde kargo dahil en ucuz fiyat seçeneği
+          </p>
+          <p className="product-price">
+            {product.price} <span>TL</span>
+          </p>
+          <p className="shipping">
+            Free Shipping: {product.freeShipping ? "Yes" : "No"}
+          </p>
+          <p className="update">Son güncelleme: Şimdi</p>
+        </div>
+      </div>
     </div>
   );
 }

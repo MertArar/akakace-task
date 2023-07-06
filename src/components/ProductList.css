@@ -5,9 +5,10 @@
 }
 
 .selected-product {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 40px;
   padding: 20px;
-  border: 1px solid #ccc;
 }
 
 .carousel-container {
@@ -31,7 +32,7 @@
 }
 
 .carousel-dot.active {
-  background-color: #333;
+  background-color: rgb(0, 204, 255);
 }
 
 .carousel-image {
@@ -68,13 +69,15 @@
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
   background-color: #f1f1f1;
+  border-radius: 10px;
   padding: 10px;
 }
 
 .product-list li {
   background-color: #fff;
   padding: 10px;
-  border: 1px solid #ccc;
+  border-radius: 15px;
+  list-style: none;
 }
 
 .product-list li img {
