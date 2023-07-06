@@ -1,39 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./ProductList.css"; // CSS dosyasını burada import edin
+import "./ProductList.css";
 
 const ProductList = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [horizontalProducts, setHorizontalProducts] = useState([]);
   const [nextUrl, setNextUrl] = useState(null);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Seçilen ürünü getirme
-    fetch(
-      "https://mocki.io/v1/1a1fb542-22d1-4919-914a-750114879775?code={code}"
-    )
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://mocki.io/v1/1a1fb542-22d1-4919-914a-750114879775?code={code}"
+        );
+        const data = await response.json();
         setSelectedProduct(data.result);
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-      });
 
-    // Ürün listesini getirme
-    fetch("https://mocki.io/v1/59906f35-d5d5-40f7-8d44-53fd26eb3a05")
-      .then((response) => response.json())
-      .then((data) => {
-        const { horizontalProducts, products, result } = data.result;
+        const productListResponse = await fetch(
+          "https://mocki.io/v1/59906f35-d5d5-40f7-8d44-53fd26eb3a05"
+        );
+        const productListData = await productListResponse.json();
+        const { horizontalProducts, products, result } = productListData.result;
         setHorizontalProducts(horizontalProducts || []);
         setProducts(products || []);
         setNextUrl(result.nextUrl);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log("Error:", error);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleSelectedProductClick = () => {
@@ -42,28 +42,75 @@ const ProductList = () => {
     }
   };
 
+  const handleCarouselDotClick = (index) => {
+    setCarouselIndex(index);
+  };
+
+  const loadMoreProducts = async () => {
+    if (nextUrl) {
+      try {
+        const response = await fetch(nextUrl);
+        const data = await response.json();
+        const { products: newProducts, result } = data.result;
+        setProducts((prevProducts) => [...prevProducts, ...newProducts]);
+        setNextUrl(result.nextUrl);
+      } catch (error) {
+        console.log("Error:", error);
+      }
+    }
+  };
+
   return (
     <div className="container">
       {selectedProduct && (
-        <div className="selected-product" onClick={handleSelectedProductClick}>
+        <div className="selected-product">
           <h2>Selected Product</h2>
-          <img
-            src={selectedProduct.imageUrl}
-            alt={selectedProduct.productName}
-          />
-          <h3>{selectedProduct.productName}</h3>
-          <p>{selectedProduct.badge}</p>
-          <p>Rating: {selectedProduct.rating}</p>
-          <p>Price: {selectedProduct.price}</p>
-          <p>Storage Options: {selectedProduct.storageOptions.join(", ")}</p>
-          <p>Count of Prices: {selectedProduct.countOfPrices}</p>
-          <p>Free Shipping: {selectedProduct.freeShipping ? "Yes" : "No"}</p>
-          <p>Last Update: {selectedProduct.lastUpdate}</p>
+          <div className="carousel-container">
+            <div className="carousel-dots">
+              {horizontalProducts.map((_, index) => (
+                <span
+                  key={index}
+                  className={`carousel-dot ${
+                    index === carouselIndex ? "active" : ""
+                  }`}
+                  onClick={() => handleCarouselDotClick(index)}
+                />
+              ))}
+            </div>
+            <div className="carousel-slide">
+              {horizontalProducts.length > 0 && (
+                <img
+                  src={horizontalProducts[carouselIndex]?.imageUrl}
+                  alt={horizontalProducts[carouselIndex]?.name}
+                  className="carousel-image"
+                  onClick={handleSelectedProductClick}
+                />
+              )}
+            </div>
+          </div>
+          <h3>{horizontalProducts[carouselIndex]?.name}</h3>
+          <p>{horizontalProducts[carouselIndex]?.badge}</p>
+          <p>Rating: {horizontalProducts[carouselIndex]?.rating}</p>
+          <p>Price: {horizontalProducts[carouselIndex]?.price}</p>
+          <p>
+            Storage Options:{" "}
+            {horizontalProducts[carouselIndex]?.storageOptions?.join(", ")}
+          </p>
+          <p>
+            Count of Prices: {horizontalProducts[carouselIndex]?.countOfPrices}
+          </p>
+          <p>
+            Free Shipping:{" "}
+            {horizontalProducts[carouselIndex]?.freeShipping ? "Yes" : "No"}
+          </p>
+          <p>Last Update: {horizontalProducts[carouselIndex]?.lastUpdate}</p>
         </div>
       )}
 
       <h2>Product List</h2>
-      <ul className="product-list">
+      <ul
+        className={`product-list ${selectedProduct ? "horizontal-list" : ""}`}
+      >
         {products.map((product) => (
           <li key={product.code}>
             <Link to={`/product/${product.code}`}>
@@ -74,17 +121,11 @@ const ProductList = () => {
         ))}
       </ul>
 
-      <h2>Horizontal Product List</h2>
-      <ul className="product-list">
-        {horizontalProducts.map((product) => (
-          <li key={product.code}>
-            <Link to={`/product/${product.code}`}>
-              <img src={product.imageUrl} alt={product.name} />
-              {product.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {nextUrl && (
+        <button className="load-more-button" onClick={loadMoreProducts}>
+          Load More
+        </button>
+      )}
     </div>
   );
 };
