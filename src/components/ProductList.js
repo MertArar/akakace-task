@@ -92,7 +92,9 @@ const ProductList = () => {
               )}
             </div>
           </div>
-          <h3>{horizontalProducts[carouselIndex]?.name}</h3>
+          <h3 className="product-name">
+            {horizontalProducts[carouselIndex]?.name}
+          </h3>
           <p>{horizontalProducts[carouselIndex]?.badge}</p>
           <p>Rating: {horizontalProducts[carouselIndex]?.rating}</p>
           <p>Price: {horizontalProducts[carouselIndex]?.price}</p>
@@ -122,7 +124,12 @@ const ProductList = () => {
               onClick={() => handleSelectedProductClick(product.code)}
             >
               <img src={product.imageUrl} alt={product.name} />
-              <span>{product.name}</span>
+              <div className="product-detail">
+                <span className="product-detail-name">{product.name}</span>
+                <span className="product-detail-price">
+                  {product.price} <span>TL</span>
+                </span>
+              </div>
             </div>
           </li>
         ))}

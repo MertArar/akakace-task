@@ -44,24 +44,9 @@
   position: relative;
 }
 
-.carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 30px;
-  height: 30px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-.carousel-arrow:hover {
-  background-color: #eee;
+.product-name {
+  color: rgb(4, 117, 170);
+  font-weight: 300;
 }
 
 .product-list {
@@ -85,6 +70,7 @@
   height: 59px;
   object-fit: contain;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .product-list li h4 {
@@ -94,4 +80,29 @@
 /* Ekstra: Ürünlerin yan yana gitmesi için 2'li gruplar halinde düzenleme */
 .product-list li:nth-child(even) {
   clear: both;
+}
+
+.product-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.product-detail-name {
+  color: rgb(4, 117, 170);
+}
+
+.product-detail-price {
+  font-weight: bold;
+}
+
+.product-detail-price span {
+  font-weight: normal;
 }
